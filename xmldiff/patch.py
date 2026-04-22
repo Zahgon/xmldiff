@@ -12,7 +12,7 @@ DIFF_SPLIT = re.compile('(?:"[^"]*"|[^, ])+|(?<![^,])(?![^,])')
 class Patcher:
     @property
     def nsmap(self):
-        return getattr(self, "_nsmap", {})
+        pass
 
     def patch(self, actions, tree):
         if isinstance(tree, etree._ElementTree):
@@ -37,57 +37,40 @@ class Patcher:
         method(action, tree)
 
     def _handle_DeleteNode(self, action, tree):
-        node = tree.xpath(action.node, namespaces=self.nsmap)[0]
-        node.getparent().remove(node)
+        pass
 
     def _handle_InsertNode(self, action, tree):
-        target = tree.xpath(action.target, namespaces=self.nsmap)[0]
-        node = target.makeelement(action.tag)
-        target.insert(action.position, node)
+        pass
 
     def _handle_RenameNode(self, action, tree):
-        tree.xpath(action.node, namespaces=self.nsmap)[0].tag = action.tag
+        pass
 
     def _handle_MoveNode(self, action, tree):
-        node = tree.xpath(action.node, namespaces=self.nsmap)[0]
-        node.getparent().remove(node)
-        target = tree.xpath(action.target)[0]
-        target.insert(action.position, node)
+        pass
 
     def _handle_UpdateTextIn(self, action, tree):
-        tree.xpath(action.node, namespaces=self.nsmap)[0].text = action.text
+        pass
 
     def _handle_UpdateTextAfter(self, action, tree):
-        tree.xpath(action.node, namespaces=self.nsmap)[0].tail = action.text
+        pass
 
     def _handle_UpdateAttrib(self, action, tree):
-        node = tree.xpath(action.node, namespaces=self.nsmap)[0]
-        # This should not be used to insert new attributes.
-        assert action.name in node.attrib
-        node.attrib[action.name] = action.value
+        pass
 
     def _handle_DeleteAttrib(self, action, tree):
-        del tree.xpath(action.node, namespaces=self.nsmap)[0].attrib[action.name]
+        pass
 
     def _handle_InsertAttrib(self, action, tree):
-        node = tree.xpath(action.node, namespaces=self.nsmap)[0]
-        # This should not be used to update existing attributes.
-        assert action.name not in node.attrib
-        node.attrib[action.name] = action.value
+        pass
 
     def _handle_RenameAttrib(self, action, tree):
-        node = tree.xpath(action.node, namespaces=self.nsmap)[0]
-        assert action.oldname in node.attrib
-        assert action.newname not in node.attrib
-        node.attrib[action.newname] = node.attrib[action.oldname]
-        del node.attrib[action.oldname]
+        pass
 
     def _handle_InsertComment(self, action, tree):
-        target = tree.xpath(action.target)[0]
-        target.insert(action.position, etree.Comment(action.text))
+        pass
 
     def _handle_InsertNamespace(self, action, tree):
-        self.nsmap[action.prefix] = action.uri
+        pass
 
     def _handle_DeleteNamespace(self, action, tree):
         # Nothing needs to be done, it will be handled by cleanup
@@ -131,40 +114,40 @@ class DiffParser:
         return method(*params)
 
     def _handle_delete(self, node):
-        return actions.DeleteNode(node)
+        pass
 
     def _handle_insert(self, target, tag, position):
-        return actions.InsertNode(target, tag, int(position))
+        pass
 
     def _handle_rename(self, node, tag):
-        return actions.RenameNode(node, tag)
+        pass
 
     def _handle_move(self, node, target, position):
-        return actions.MoveNode(node, target, int(position))
+        pass
 
     def _handle_update_text(self, node, text, oldtext=None):
-        return actions.UpdateTextIn(node, loads(text))
+        pass
 
     def _handle_update_text_after(self, node, text, oldtext=None):
-        return actions.UpdateTextAfter(node, loads(text))
+        pass
 
     def _handle_update_attribute(self, node, name, value):
-        return actions.UpdateAttrib(node, name, loads(value))
+        pass
 
     def _handle_delete_attribute(self, node, name):
-        return actions.DeleteAttrib(node, name)
+        pass
 
     def _handle_insert_attribute(self, node, name, value):
-        return actions.InsertAttrib(node, name, loads(value))
+        pass
 
     def _handle_rename_attribute(self, node, oldname, newname):
-        return actions.RenameAttrib(node, oldname, newname)
+        pass
 
     def _handle_insert_comment(self, target, position, text):
-        return actions.InsertComment(target, int(position), loads(text))
+        pass
 
     def _handle_insert_namespace(self, prefix, uri):
-        return actions.InsertNamespace(prefix, uri)
+        pass
 
     def _handle_delete_namespace(self, prefix):
-        return actions.DeleteNamespace(prefix)
+        pass

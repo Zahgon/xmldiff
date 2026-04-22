@@ -123,27 +123,8 @@ def getpath(element, tree=None):
 # The remainder of the functions here are helpful when debugging.
 # They aren't documented, nor very well tested.
 def _make_ascii_tree(element, indent=""):
-    from xmldiff.formatting import DIFF_NS  # Avoid circular imports
-
-    diffns = "{%s}" % DIFF_NS
-    if element.prefix:
-        name = "{}:{}".format(element.prefix, element.tag.split("}")[1])
-    else:
-        name = element.tag
-    diff_attrs = [attr for attr in element.attrib if attr.startswith(diffns)]
-    if diff_attrs:
-        diff = "(%s)" % ", ".join(attr.split("}")[1] for attr in diff_attrs)
-    else:
-        diff = ""
-
-    result = [" ".join((indent, name, diff))]
-    indent = "  " + indent
-
-    for child in element.getchildren():
-        result.extend(_make_ascii_tree(child, indent))
-    return result
+    pass
 
 
 def make_ascii_tree(element):
-    result = _make_ascii_tree(element)
-    return "\n".join(result)
+    pass
